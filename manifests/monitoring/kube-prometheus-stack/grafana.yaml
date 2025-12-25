@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Grafana
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  serviceAccountName: grafana
+  image: grafana/grafana:9.5.14
+  datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus:9090
+      access: proxy
+      isDefault: true
+  plugins:
+    - name: grafana-piechart-panel
+      version: 1.8.1
+  adminUser: admin
+  adminPassword: admin
+  sidecar:
+    dashboards:
+      enable: true
+      search: /var/lib/grafana/dashboards
